@@ -28,7 +28,7 @@
 
 #define VERSION VERSION_STRING VERSION_TYPE
 
-#define WINDOW_NAME "4coder: " VERSION
+#define WINDOW_NAME "Get Codin' Gamer"
 
 // long string
 #define L_VN__(a,b,c) L#a L"." L#b L"." L#c
