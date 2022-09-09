@@ -158,6 +158,8 @@ struct Win32_Vars{
     HKL kl_universal;
     
     b8 full_screen;
+    b8 maximized;
+    b8 do_toggle_maximize;
     b8 do_toggle;
     WINDOWPLACEMENT bordered_win_pos;
     b32 send_exit_signal;
@@ -358,6 +360,40 @@ system_is_fullscreen_sig(){
     b32 result = (win32vars.full_screen != win32vars.do_toggle);
     return(result);
 }
+
+
+////////////////////////////////
+// NOTE(lake): Simple Window Maximization so the user still has full window header controls (minimize, maximize/restore down, close)
+
+internal void
+win32_toggle_maximized() {
+    HWND win = win32vars.window_handle;
+    DWORD style = GetWindowLongW(win, GWL_STYLE);
+    
+    if (!win32vars.maximized) {
+	ShowWindow(win, SW_MAXIMIZE);
+	win32vars.maximized = true;
+    } else {
+	ShowWindow(win, SW_RESTORE);
+	win32vars.maximized = false;
+    }
+}
+
+internal
+system_set_maximized_sig() {
+    win32vars.do_toggle_maximize = (win32vars.maximized != maximized);
+    b32 success = true;
+    return(success);
+}
+
+internal
+system_is_maximized_sig() {
+    b32 result = (win32vars.maximized != win32vars.do_toggle_maximize);
+    return(result);
+}
+
+/////////////////////////////////
+// NOTE(lake): Some keyboard modifier stuff by allen im pretty sure
 
 internal
 system_get_keyboard_modifiers_sig(){
@@ -1755,7 +1791,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdS
         
         log_os(" path to core: '%.*s'\n", string_expand(core_path));
         
-        if (system_load_library(scratch, core_path, &core_library)){
+	if (system_load_library(scratch, core_path, &core_library)){
             get_funcs = (App_Get_Functions*)system_get_proc(core_library, "app_get_functions");
             if (get_funcs != 0){
                 app = get_funcs();
@@ -1767,7 +1803,8 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdS
         }
         else{
             char msg[] = "Could not load '4ed_app.dll'. This file should be in the same directory as the main '4ed' executable.";
-            system_error_box(msg);
+	    char* path_to_dll = (char *)core_path.str;
+	    system_error_box(path_to_dll);
         }
     }
     
@@ -1889,6 +1926,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdS
     log_os(" loaded successfully\n");
     
     // NOTE(allen): Window Init
+    // NOTE(lake) : Attempting to make this shit semi transparent lol
     log_os("Initializing graphical window...\n");
     
     log_os(" getting initial settings...\n");
@@ -1935,23 +1973,6 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdS
     win32vars.clip_wakeup_timer = system_wake_up_timer_create();
     win32vars.clipboard_sequence = 0;
     win32vars.next_clipboard_is_self = 0;
-#if 0
-    if (win32vars.clipboard_sequence == 0){
-        Scratch_Block scratch(win32vars.tctx);
-        win32_post_clipboard(scratch, "", 0);
-        win32vars.clipboard_sequence = GetClipboardSequenceNumber();
-        win32vars.next_clipboard_is_self = 0;
-        if (win32vars.clipboard_sequence == 0){
-            log_os(" failure\n");
-        }
-        else{
-            log_os(" got first sequence number\n");
-        }
-    }
-    else{
-        log_os(" no initial sequence number\n");
-    }
-#endif
     
     log_os("Setting up keyboard layout...\n");
     win32vars.kl_universal = LoadKeyboardLayoutW(L"00000409", 0);
@@ -2222,6 +2243,12 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdS
             win32_toggle_fullscreen();
             win32vars.do_toggle = false;
         }
+
+	// Note(lake): toggle maximize
+	if (win32vars.do_toggle_maximize) {
+	    win32_toggle_maximized();
+	    win32vars.do_toggle_maximize = false;
+	}
         
         // NOTE(allen): schedule another step if needed
         if (result.animating){

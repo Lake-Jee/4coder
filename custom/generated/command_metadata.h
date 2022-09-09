@@ -2,7 +2,7 @@
 #define command_id(c) (fcoder_metacmd_ID_##c)
 #define command_metadata(c) (&fcoder_metacmd_table[command_id(c)])
 #define command_metadata_by_id(id) (&fcoder_metacmd_table[id])
-#define command_one_past_last_id 268
+#define command_one_past_last_id 269
 #if defined(CUSTOM_COMMAND_SIG)
 #define PROC_LINKS(x,y) x
 #else
@@ -255,6 +255,7 @@ CUSTOM_COMMAND_SIG(toggle_highlight_enclosing_scopes);
 CUSTOM_COMMAND_SIG(toggle_highlight_line_at_cursor);
 CUSTOM_COMMAND_SIG(toggle_line_numbers);
 CUSTOM_COMMAND_SIG(toggle_line_wrap);
+CUSTOM_COMMAND_SIG(toggle_maximize);
 CUSTOM_COMMAND_SIG(toggle_mouse);
 CUSTOM_COMMAND_SIG(toggle_paren_matching_helper);
 CUSTOM_COMMAND_SIG(toggle_show_whitespace);
@@ -289,7 +290,7 @@ char *source_name;
 i32 source_name_len;
 i32 line_number;
 };
-static Command_Metadata fcoder_metacmd_table[268] = {
+static Command_Metadata fcoder_metacmd_table[269] = {
 { PROC_LINKS(allow_mouse, 0), false, "allow_mouse", 11, "Shows the mouse and causes all mouse input to be processed normally.", 68, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_default_framework.cpp", 66, 481 },
 { PROC_LINKS(auto_indent_line_at_cursor, 0), false, "auto_indent_line_at_cursor", 26, "Auto-indents the line on which the cursor sits.", 47, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_auto_indent.cpp", 60, 420 },
 { PROC_LINKS(auto_indent_range, 0), false, "auto_indent_range", 17, "Auto-indents the range between the cursor and the mark.", 55, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_auto_indent.cpp", 60, 430 },
@@ -306,7 +307,7 @@ static Command_Metadata fcoder_metacmd_table[268] = {
 { PROC_LINKS(change_to_build_panel, 0), false, "change_to_build_panel", 21, "If the special build panel is open, makes the build panel the active panel.", 75, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_build_commands.cpp", 63, 181 },
 { PROC_LINKS(clean_all_lines, 0), false, "clean_all_lines", 15, "Removes trailing whitespace from all lines and removes all blank lines in the current buffer.", 93, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_base_commands.cpp", 62, 648 },
 { PROC_LINKS(clean_trailing_whitespace, 0), false, "clean_trailing_whitespace", 25, "Removes trailing whitespace from all lines in the current buffer.", 65, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_base_commands.cpp", 62, 657 },
-{ PROC_LINKS(clear_all_themes, 0), false, "clear_all_themes", 16, "Clear the theme list", 20, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_default_framework.cpp", 66, 565 },
+{ PROC_LINKS(clear_all_themes, 0), false, "clear_all_themes", 16, "Clear the theme list", 20, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_default_framework.cpp", 66, 571 },
 { PROC_LINKS(clear_clipboard, 0), false, "clear_clipboard", 15, "Clears the history of the clipboard", 35, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_clipboard.cpp", 58, 221 },
 { PROC_LINKS(click_set_cursor, 0), false, "click_set_cursor", 16, "Sets the cursor position to the mouse position.", 47, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_base_commands.cpp", 62, 235 },
 { PROC_LINKS(click_set_cursor_and_mark, 0), false, "click_set_cursor_and_mark", 25, "Sets the cursor position and mark to the mouse position.", 56, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_base_commands.cpp", 62, 225 },
@@ -392,8 +393,8 @@ static Command_Metadata fcoder_metacmd_table[268] = {
 { PROC_LINKS(list_all_substring_locations_case_insensitive, 0), false, "list_all_substring_locations_case_insensitive", 45, "Queries the user for a string and lists all case-insensitive substring matches found in all open buffers.", 105, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_search.cpp", 55, 186 },
 { PROC_LINKS(load_project, 0), false, "load_project", 12, "Looks for a project.4coder file in the current directory and tries to load it.  Looks in parent directories until a project file is found or there are no more parents.", 167, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_project_commands.cpp", 65, 856 },
 { PROC_LINKS(load_theme_current_buffer, 0), false, "load_theme_current_buffer", 25, "Parse the current buffer as a theme file and add the theme to the theme list. If the buffer has a .4coder postfix in it's name, it is removed when the name is saved.", 165, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_config.cpp", 55, 1611 },
-{ PROC_LINKS(load_themes_default_folder, 0), false, "load_themes_default_folder", 26, "Loads all the theme files in the default theme folder.", 54, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_default_framework.cpp", 66, 535 },
-{ PROC_LINKS(load_themes_hot_directory, 0), false, "load_themes_hot_directory", 25, "Loads all the theme files in the current hot directory.", 55, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_default_framework.cpp", 66, 554 },
+{ PROC_LINKS(load_themes_default_folder, 0), false, "load_themes_default_folder", 26, "Loads all the theme files in the default theme folder.", 54, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_default_framework.cpp", 66, 541 },
+{ PROC_LINKS(load_themes_hot_directory, 0), false, "load_themes_hot_directory", 25, "Loads all the theme files in the current hot directory.", 55, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_default_framework.cpp", 66, 560 },
 { PROC_LINKS(make_directory_query, 0), false, "make_directory_query", 20, "Queries the user for a name and creates a new directory with the given name.", 76, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_base_commands.cpp", 62, 1497 },
 { PROC_LINKS(miblo_decrement_basic, 0), false, "miblo_decrement_basic", 21, "Decrement an integer under the cursor by one.", 45, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_miblo_numbers.cpp", 62, 44 },
 { PROC_LINKS(miblo_decrement_time_stamp, 0), false, "miblo_decrement_time_stamp", 26, "Decrement a time stamp under the cursor by one second. (format [m]m:ss or h:mm:ss", 81, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_miblo_numbers.cpp", 62, 237 },
@@ -536,6 +537,7 @@ static Command_Metadata fcoder_metacmd_table[268] = {
 { PROC_LINKS(toggle_highlight_line_at_cursor, 0), false, "toggle_highlight_line_at_cursor", 31, "Toggles the line highlight at the cursor.", 41, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_default_framework.cpp", 66, 505 },
 { PROC_LINKS(toggle_line_numbers, 0), false, "toggle_line_numbers", 19, "Toggles the left margin line numbers.", 37, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_base_commands.cpp", 62, 827 },
 { PROC_LINKS(toggle_line_wrap, 0), false, "toggle_line_wrap", 16, "Toggles the line wrap setting on this buffer.", 45, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_base_commands.cpp", 62, 835 },
+{ PROC_LINKS(toggle_maximize, 0), false, "toggle_maximize", 15, "Toggle maximized mode on or off. The change(s) do not take effect until the next frame.", 87, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_default_framework.cpp", 66, 535 },
 { PROC_LINKS(toggle_mouse, 0), false, "toggle_mouse", 12, "Toggles the mouse suppression mode, see suppress_mouse and allow_mouse.", 71, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_default_framework.cpp", 66, 487 },
 { PROC_LINKS(toggle_paren_matching_helper, 0), false, "toggle_paren_matching_helper", 28, "In code files matching parentheses pairs are colored with distinguishing colors.", 80, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_default_framework.cpp", 66, 521 },
 { PROC_LINKS(toggle_show_whitespace, 0), false, "toggle_show_whitespace", 22, "Toggles the current buffer's whitespace visibility status.", 58, "D:\\4coder_from_source\\4ed\\code\\custom\\4coder_base_commands.cpp", 62, 818 },
@@ -805,26 +807,27 @@ static i32 fcoder_metacmd_ID_toggle_highlight_enclosing_scopes = 242;
 static i32 fcoder_metacmd_ID_toggle_highlight_line_at_cursor = 243;
 static i32 fcoder_metacmd_ID_toggle_line_numbers = 244;
 static i32 fcoder_metacmd_ID_toggle_line_wrap = 245;
-static i32 fcoder_metacmd_ID_toggle_mouse = 246;
-static i32 fcoder_metacmd_ID_toggle_paren_matching_helper = 247;
-static i32 fcoder_metacmd_ID_toggle_show_whitespace = 248;
-static i32 fcoder_metacmd_ID_toggle_virtual_whitespace = 249;
-static i32 fcoder_metacmd_ID_tutorial_maximize = 250;
-static i32 fcoder_metacmd_ID_tutorial_minimize = 251;
-static i32 fcoder_metacmd_ID_uncomment_line = 252;
-static i32 fcoder_metacmd_ID_undo = 253;
-static i32 fcoder_metacmd_ID_undo_all_buffers = 254;
-static i32 fcoder_metacmd_ID_view_buffer_other_panel = 255;
-static i32 fcoder_metacmd_ID_view_jump_list_with_lister = 256;
-static i32 fcoder_metacmd_ID_word_complete = 257;
-static i32 fcoder_metacmd_ID_word_complete_drop_down = 258;
-static i32 fcoder_metacmd_ID_write_block = 259;
-static i32 fcoder_metacmd_ID_write_hack = 260;
-static i32 fcoder_metacmd_ID_write_note = 261;
-static i32 fcoder_metacmd_ID_write_space = 262;
-static i32 fcoder_metacmd_ID_write_text_and_auto_indent = 263;
-static i32 fcoder_metacmd_ID_write_text_input = 264;
-static i32 fcoder_metacmd_ID_write_todo = 265;
-static i32 fcoder_metacmd_ID_write_underscore = 266;
-static i32 fcoder_metacmd_ID_write_zero_struct = 267;
+static i32 fcoder_metacmd_ID_toggle_maximize = 246;
+static i32 fcoder_metacmd_ID_toggle_mouse = 247;
+static i32 fcoder_metacmd_ID_toggle_paren_matching_helper = 248;
+static i32 fcoder_metacmd_ID_toggle_show_whitespace = 249;
+static i32 fcoder_metacmd_ID_toggle_virtual_whitespace = 250;
+static i32 fcoder_metacmd_ID_tutorial_maximize = 251;
+static i32 fcoder_metacmd_ID_tutorial_minimize = 252;
+static i32 fcoder_metacmd_ID_uncomment_line = 253;
+static i32 fcoder_metacmd_ID_undo = 254;
+static i32 fcoder_metacmd_ID_undo_all_buffers = 255;
+static i32 fcoder_metacmd_ID_view_buffer_other_panel = 256;
+static i32 fcoder_metacmd_ID_view_jump_list_with_lister = 257;
+static i32 fcoder_metacmd_ID_word_complete = 258;
+static i32 fcoder_metacmd_ID_word_complete_drop_down = 259;
+static i32 fcoder_metacmd_ID_write_block = 260;
+static i32 fcoder_metacmd_ID_write_hack = 261;
+static i32 fcoder_metacmd_ID_write_note = 262;
+static i32 fcoder_metacmd_ID_write_space = 263;
+static i32 fcoder_metacmd_ID_write_text_and_auto_indent = 264;
+static i32 fcoder_metacmd_ID_write_text_input = 265;
+static i32 fcoder_metacmd_ID_write_todo = 266;
+static i32 fcoder_metacmd_ID_write_underscore = 267;
+static i32 fcoder_metacmd_ID_write_zero_struct = 268;
 #endif

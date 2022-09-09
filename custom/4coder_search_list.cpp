@@ -54,7 +54,6 @@ def_search_get_full_path(Arena *arena, List_String_Const_u8 *list, String_Const_
         
         end_temp(temp);
     }
-    
     return(result);
 }
 

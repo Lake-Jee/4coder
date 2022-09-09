@@ -532,6 +532,12 @@ CUSTOM_DOC("Toggle fullscreen mode on or off.  The change(s) do not take effect 
     system_set_fullscreen(!system_is_fullscreen());
 }
 
+CUSTOM_COMMAND_SIG(toggle_maximize)
+CUSTOM_DOC("Toggle maximized mode on or off. The change(s) do not take effect until the next frame.")
+{
+    system_set_maximized(!system_is_maximized());
+}
+
 CUSTOM_COMMAND_SIG(load_themes_default_folder)
 CUSTOM_DOC("Loads all the theme files in the default theme folder.")
 {
@@ -605,20 +611,20 @@ setup_essential_mapping(Mapping *mapping, i64 global_id, i64 file_id, i64 code_i
 
 function void
 default_4coder_initialize(Application_Links *app, String_Const_u8_Array file_names, i32 override_font_size, b32 override_hinting){
-#define M \
-"Welcome to " VERSION "\n" \
+#define INTRO_MESSAGE \
+"Welcome to Lake Jee's custom 4coder App and Config!\n" \
 "If you're new to 4coder there is a built in tutorial\n" \
 "Use the key combination [ X Alt ] (on mac [ X Control ])\n" \
 "Type in 'hms_demo_tutorial' and press enter\n" \
 "\n" \
-"Direct bug reports and feature requests to https://github.com/4coder-editor/4coder/issues\n" \
+"To have your bug reports and feature requests ignored, navigate to:\nhttps://github.com/4coder-editor/4coder/issues \n" \
 "\n" \
-"Other questions and discussion can be directed to editor@4coder.net or 4coder.handmade.network\n" \
+"The forums are still somewhat active here:\n4coder.handmade.network\n" \
 "\n" \
-"The change log can be found in CHANGES.txt\n" \
+"The change log is old and doesn't matter.\n" \
 "\n"
-    print_message(app, string_u8_litexpr(M));
-#undef M
+
+    print_message(app, string_u8_litexpr(INTRO_MESSAGE));
     
     Scratch_Block scratch(app);
     
