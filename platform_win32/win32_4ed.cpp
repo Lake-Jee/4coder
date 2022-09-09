@@ -392,9 +392,6 @@ system_is_maximized_sig() {
     return(result);
 }
 
-/////////////////////////////////
-// NOTE(lake): Some keyboard modifier stuff by allen im pretty sure
-
 internal
 system_get_keyboard_modifiers_sig(){
     return(copy_modifier_set(arena, &win32vars.input_chunk.pers.modifiers));

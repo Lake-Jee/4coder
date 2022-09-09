@@ -1,5 +1,5 @@
 
-keys_global = {
+kkeys_global = {
     { "keyboard_macro_start_recording", "U", "Control" },
     { "keyboard_macro_finish_recording", "U", "Control", "Shift" },
     { "keyboard_macro_replay",           "U", "Alt" },
@@ -15,8 +15,6 @@ keys_global = {
     { "change_to_build_panel",         "Period", "Alt" },
     { "close_build_panel",             "Comma", "Alt" },
     { "close_panel",                   "Period", "Control"},
-    { "toggle_fullscreen",             "R", "Control", "Shift" },
-    { "toggle_maximized",	       "Semicolon", "Alt" },
     { "goto_next_jump",                "N", "Alt" },
     { "goto_prev_jump",                "N", "Alt", "Shift" },
     { "build_in_build_panel",          "M", "Alt" },
@@ -30,7 +28,7 @@ keys_global = {
     { "jump_to_last_point",            "P", "Control" },
     { "jump_to_definition",            "J", "Alt" },
     { "list_all_functions_current_buffer_lister", "I", "Control", "Shift" },
-    { "exit_4coder",          "F4", "Alt" },
+    { "exit_4coder",          "Escape", "Alt" },
     { "project_fkey_command", "F1" },
     { "project_fkey_command", "F2" },
     { "project_fkey_command", "F3" },
@@ -47,6 +45,7 @@ keys_global = {
     { "project_fkey_command", "F14" },
     { "project_fkey_command", "F15" },
     { "project_fkey_command", "F16" },
+    { "toggle_maximize", "Semicolon", "Alt" },
 };
 
 keys_file = {
